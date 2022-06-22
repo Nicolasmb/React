@@ -1,4 +1,5 @@
 import { useReducer } from "react"
+import { TodoAdd } from "./TodoAdd";
 import { TodoList } from "./TodoList";
 import { todoReducer } from "./todoReducer"
 
@@ -10,7 +11,7 @@ const initialState = [
     },
     {
         id: new Date().getTime() * 3,
-        description: 'Recolectar la piedra del alma',
+        description: 'Recolectar la piedra del tiempo',
         done: false,
     }
 ]
@@ -39,19 +40,7 @@ export const TodoApp = () => {
                     <hr />
                     {/* TodoAdd onNewTodo( todo */}
 
-                    <form>
-                        <input 
-                            type="text"
-                            placeholder="¿Qué hay que hacer?"
-                            className="form-control"
-                        />
-
-                        <button 
-                            type="submit"
-                            className="btn btn-outline-primary mt-1">
-                            Agregar
-                        </button>
-                    </form>
+                    <TodoAdd />
                     {/* Fin de TodoAdd */}
                 </div>
             </div>
