@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useReducer } from "react"
 import { TodoAdd } from "./TodoAdd";
 import { TodoList } from "./TodoList";
@@ -9,19 +10,26 @@ const initialState = [
         description: 'Recolectar la piedra del alma',
         done: false,
     },
-    {
-        id: new Date().getTime() * 3,
-        description: 'Recolectar la piedra del tiempo',
-        done: false,
-    }
-]
+];
 
 export const TodoApp = () => {
 
-    const [ todos, dispatchTodo ] = useReducer( todoReducer, initialState );
+    const [ todos, dispatch] = useReducer( todoReducer, initialState, init );
 
+    const init = () => {
+        return JSON.parse(localStorage.getItem('todos')) || [];
+    }
+
+    useEffect(() => {
+        localStorage.setItem('todos', JSON.stringify(todos) || [] ) // LocalsStorage es una API que ya viene con JavaScript
+    }, [todos])
+    
     const handleNewTodo = ( todo ) => {
-        console.log({ todo });
+        const action = {
+            type: '[TODO] Add Todo',
+            payload: todo
+        }
+        dispatch( action );
     }
 
     return (
@@ -31,17 +39,10 @@ export const TodoApp = () => {
 
             <div className="row">
                 <div className="col-7">
-
                     <TodoList todos={ todos }/>
-
                 </div>
                 <div className="col-5">
-                    <h4>Agregar TODO</h4>
-                    <hr />
-                    {/* TodoAdd onNewTodo( todo */}
-
-                    <TodoAdd />
-                    {/* Fin de TodoAdd */}
+                    <TodoAdd onNewTodo={ handleNewTodo }/>
                 </div>
             </div>
 
